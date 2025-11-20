@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lebenslauf - Marco Paulo Martins Boucinha</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+    
+    <script>
+        // Konfiguration für Tailwind
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'sans': ['Inter', 'sans-serif'],
+                        'serif': ['Merriweather', 'serif'],
+                    },
+                    colors: {
+                        'template-gray': '#F5F5F4',
+                        'template-sidebar': '#FEF3C7', 
+                        'template-accent': '#A8A29E',
+                        'template-text-dark': '#44403C',
+                        'template-text-heading': '#292524',
+                        'pastel-green': '#D1FAE5',
+                        'pastel-yellow': '#FEF3C7',
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F5F5F4;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Merriweather', serif;
+        }
+        
+        /* Stil für den Datei-Upload-Button */
+        .image-upload-label {
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            background-color: #f3f4f6;
+            border: 2px dashed #cbd5e1;
+            border-radius: 9999px;
+            color: #64748b;
+            font-size: 0.75rem;
+            text-align: center;
+            transition: all 0.2s;
+        }
+        .image-upload-label:hover {
+            background-color: #e2e8f0;
+            color: #475569;
+        }
+
+        /* Profilbild Anpassung */
+        #profileImage {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 9999px;
+        }
+
+        /* Hover-Effekte für Flaggen */
+        .flag-btn {
+            transition: transform 0.2s;
+            cursor: pointer;
+            font-size: 1.5rem;
+            line-height: 1;
+            background: none;
+            border: none;
+            padding: 0;
+            margin-right: 0.5rem;
+        }
+        .flag-btn:hover {
+            transform: scale(1.2);
+        }
+        
+        /* Links interaktiv machen */
+        .interactive-link {
+            color: #292524;
+            text-decoration: none;
+            transition: color 0.2s;
+            border-bottom: 1px dotted #A8A29E;
+        }
+        .interactive-link:hover {
+            color: #059669; /* Dunkles Grün beim Hover */
+            border-bottom: 1px solid #059669;
+        }
+
+        /* Quiz Modal Styles */
+        #quizModal {
+            transition: opacity 0.3s ease-in-out;
+        }
+        .hidden-modal {
+            opacity: 0;
+            pointer-events: none;
+        }
+        .visible-modal {
+            opacity: 1;
+            pointer-events: auto;
+        }
+    </style>
+</head>
+<body class="text-template-text-dark antialiased flex flex-col min-h-screen">
+
+    <div class="container mx-auto max-w-6xl my-12 bg-white shadow-2xl rounded-lg overflow-hidden relative flex-grow flex flex-col md:flex-row">
+            
+            <!-- Linke Spalte (Sidebar) -->
+            <aside class="w-full md:w-1/3 bg-pastel-yellow p-8 transition-colors duration-300 flex flex-col">
+                
+                <!-- Profilbild-Bereich -->
+                <div class="flex justify-center mb-6 relative group">
+                    <div class="w-40 h-40 relative overflow-hidden rounded-full border-4 border-white shadow-md"> 
+                        <img id="profileImage" 
+                             src="unnamed.jpg" 
+                             alt="Profilbild Marco Boucinha" 
+                             class="hidden"
+                             onerror="this.classList.add('hidden'); document.getElementById('uploadPlaceholder').classList.remove('hidden');">
+                        
+                        <label id="uploadPlaceholder" for="imageInput" class="image-upload-label">
+                            <span class="mb-1" data-key="img_missing">Bild fehlt?</span>
+                            <span class="font-bold" data-key="img_click">Hier klicken</span>
+                            <span data-key="img_select">zum Auswählen</span>
+                        </label>
+                        <input type="file" id="imageInput" accept="image/*" class="hidden" onchange="loadImage(this)">
+                    </div>
+                </div>
+
+                <!-- Sektion: Persönliches -->
+                <section class="mb-8">
+                    <h3 class="text-xl font-bold text-template-text-heading border-b-2 border-template-accent pb-2 mb-3" data-key="personal_title">
+                        PERSÖNLICHES
+                    </h3>
+                    <div class="text-sm space-y-2">
+                        <p>
+                            <strong data-key="dob_label">Geburtsdatum:</strong><br>
+                            4. März 1981
+                        </p>
+                        <p>
+                            <strong data-key="family_label">Familienstand:</strong><br>
+                            <span data-key="family_val">Ehemann von Alexandra (1973) und Vater von Diego (2007)</span>
+                        </p>
+                        <p>
+                            <strong data-key="nation_label">Staatsangehörigkeit:</strong><br>
+                            <span data-key="nation_val">Portugal</span>
+                        </p>
+                    </div>
+                </section>
+
+                <!-- Sektion: Kontakt -->
+                <section class="mb-8">
+                    <h3 class="text-xl font-bold text-template-text-heading border-b-2 border-template-accent pb-2 mb-3" data-key="contact_title">
+                        KONTAKT
+                    </h3>
+                    <div class="text-sm space-y-2 break-words">
+                        <p>
+                            <strong data-key="address_label">Adresse:</strong><br>
+                            Bündtenweg 29<br>4461 Böckten
+                        </p>
+                        <p>
+                            <strong data-key="phone_label">Telefon:</strong><br>
+                            <a href="tel:0765588231" class="interactive-link">076 558 82 31</a>
+                        </p>
+                        <p>
+                            <strong data-key="email_label">E-Mail:</strong><br>
+                            <!-- E-Mail Link -->
+                            <a href="mailto:mp_boucinha@yahoo.com" class="interactive-link">mp_boucinha@yahoo.com</a>
+                        </p>
+                        <p>
+                            <strong data-key="linkedin_label">LinkedIn:</strong><br>
+                            <!-- LinkedIn Link -->
+                            <a href="https://www.linkedin.com/in/marco-paulo-boucinha" target="_blank" rel="noopener noreferrer" class="interactive-link">
+                                linkedin.com/in/marco-paulo-boucinha
+                            </a>
+                        </p>
+                    </div>
+                </section>
+
+                <!-- Sektion: Ausbildung -->
+                <section class="mb-8">
+                    <h3 class="text-xl font-bold text-template-text-heading border-b-2 border-template-accent pb-2 mb-3" data-key="education_title">
+                        AUSBILDUNG
+                    </h3>
+                    <div class="text-sm space-y-3">
+                        <p><strong>2006 - 2024</strong><br><span data-key="edu_1">Diverse Kurse in CAD-Tools</span></p>
+                        <p><strong>2004</strong><br><span data-key="edu_2">1 Jahr Hochbautechniker TS, TEKO Fachschule Olten</span></p>
+                        <p>
+                            <strong>1998 - 2002</strong><br>
+                            <!-- LINK ZUM EFZ ZEUGBIS -->
+                            <a href="EFZ_Bauzeichner.pdf" target="_blank" class="interactive-link font-medium" title="Zeugnis öffnen">
+                                <span data-key="edu_3_title">Eidg. Fähigkeitszeugnis (EFZ) Bauzeichner</span>
+                            </a><br>
+                            <span data-key="edu_3_spec" class="italic text-gray-600">Fachrichtung Ingenieurbau</span><br>
+                            <span class="text-gray-500">Blattner AG, Sissach</span>
+                        </p>
+                        <p><strong>1998 - 2002</strong><br><span data-key="edu_4">Berufsfachschule Muttenz GIBM</span></p>
+                        <p><span data-key="edu_5">Baustellen-Praktika: Metallbau & Hochbau (Hevron SA / Gnemmi AG (Implenia))</span></p>
+                        <p><span data-key="edu_6">Schulbildung, von Kindergarten bis Oberstufe in Sissach</span></p>
+                    </div>
+                </section>
+
+                <!-- Sektion: Technische Skills -->
+                <section class="mb-8">
+                    <h3 class="text-xl font-bold text-template-text-heading border-b-2 border-template-accent pb-2 mb-3" data-key="skills_title">
+                        TECHNISCHE SKILLS
+                    </h3>
+                    <div class="text-sm space-y-2">
+                        <p><strong>CAD:</strong><br>AutoCAD, Cadwork, Tekla, Allplan, SketchUp 3D</p>
+                        <p><strong>IT:</strong><br>MS Office, KI-Enthusiast, Google Sheets, HTML-Grundlagen</p>
+                    </div>
+                </section>
+                
+                <!-- Sektion: Sprachen (MIT FLAGGEN) -->
+                <section class="mb-8">
+                    <h3 class="text-xl font-bold text-template-text-heading border-b-2 border-template-accent pb-2 mb-3" data-key="lang_title">
+                        SPRACHEN
+                    </h3>
+                    <div class="text-sm space-y-2">
+                        <div class="flex items-center">
+                            <button onclick="changeLanguage('de')" class="flag-btn" title="Deutsch">🇩🇪</button>
+                            <div>
+                                <strong data-key="lang_de_label">Deutsch:</strong> <span data-key="lang_de_val">Muttersprache</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center">
+                            <button onclick="changeLanguage('pt')" class="flag-btn" title="Português">🇵🇹</button>
+                            <div>
+                                <strong data-key="lang_pt_label">Portugiesisch:</strong> <span data-key="lang_pt_val">Zweite Muttersprache</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center">
+                            <button onclick="changeLanguage('fr')" class="flag-btn" title="Français">🇫🇷</button>
+                            <div>
+                                <strong data-key="lang_fr_label">Französisch:</strong> <span data-key="lang_fr_val">Gute Schulkenntnisse</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center">
+                            <button onclick="changeLanguage('it')" class="flag-btn" title="Italiano">🇮🇹</button>
+                            <div>
+                                <strong data-key="lang_it_label">Italienisch:</strong> <span data-key="lang_it_val">Gute Sprachkenntnisse</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center">
+                            <button onclick="changeLanguage('es')" class="flag-btn" title="Español">🇪🇸</button>
+                            <div>
+                                <strong data-key="lang_es_label">Spanisch:</strong> <span data-key="lang_es_val">Gute Sprachkenntnisse</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center">
+                            <button onclick="changeLanguage('en')" class="flag-btn" title="English">🇬🇧</button>
+                            <div>
+                                <strong data-key="lang_en_label">Englisch:</strong> <span data-key="lang_en_val">Grundkenntnisse (am Lernen)</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Sektion: Sonstiges -->
+                <section class="mb-8">
+                    <h3 class="text-xl font-bold text-template-text-heading border-b-2 border-template-accent pb-2 mb-3" data-key="other_title">
+                        SONSTIGES
+                    </h3>
+                    <div class="text-sm space-y-2">
+                        <p><strong data-key="driver_b">Führerschein:</strong> Kategorie B</p>
+                        <p><strong data-key="driver_a">Schiffsführerschein:</strong> Kategorie A</p>
+                        <p data-key="js_sport">J+S - Sportleiter mit UEFA-B-Fußballtrainer-Lizenz</p>
+                        <p><strong data-key="hobbies_label">Hobbys:</strong> <span data-key="hobbies_val">Familie, Architektur, Sport allg. Fussball, Finanzen, KI, Lesen/Zeichnen, Reisen und Essen</span></p>
+                    </div>
+                </section>
+
+                <!-- Sektion: Podcast Player -->
+                <section class="mt-auto flex flex-col items-center pb-8">
+                    <h3 class="text-xl font-bold text-template-text-heading border-b-2 border-template-accent pb-2 mb-4 w-full text-left" data-key="podcast_title">
+                        PODCAST
+                    </h3>
+                    <button id="podcastPlayButton" class="w-14 h-14 bg-red-600 hover:bg-red-700 text-white rounded-full flex items-center justify-center shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transform hover:scale-105">
+                        <!-- Play Icon -->
+                        <svg id="playIcon" xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" />
+                        </svg>
+                        <!-- Pause Icon (hidden) -->
+                        <svg id="pauseIcon" xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 hidden" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8 7a1 1 0 00-1 1v4a1 1 0 001 1h1a1 1 0 001-1V8a1 1 0 00-1-1H8zm5 0a1 1 0 00-1 1v4a1 1 0 001 1h1a1 1 0 001-1V8a1 1 0 00-1-1h-1z" clip-rule="evenodd" />
+                        </svg>
+                    </button>
+                    <div id="podcastStatus" class="text-xs text-gray-500 mt-2" data-key="podcast_click">Hier klicken zum Abspielen</div>
+                    <audio id="podcastPlayer" src="Marco_Paulo_Martins_Boucinha_Podcast.mp4"></audio>
+                </section>
+
+            </aside>
+            
+            <!-- Rechte Spalte (Hauptinhalt) -->
+            <main class="w-full md:w-2/3 flex flex-col h-full relative">
+                <!-- Header-Bereich -->
+                <div class="bg-pastel-green p-10 md:p-12 text-center md:text-left mb-10 transition-colors duration-300">
+                    <h1 class="text-5xl md:text-6xl font-bold text-template-text-heading">
+                        Marco Paulo
+                        <br>
+                        Martins Boucinha
+                    </h1>
+                    <h2 class="text-2xl font-light text-template-text-dark tracking-wide mt-2" data-key="main_job_title">
+                        Bauzeichner EFZ | Bautechniker | Spezialist für Betonbauten- & Bewehrungsplanung
+                    </h2>
+                </div>
+
+                <!-- Hauptinhalt Container, der den Rest füllt -->
+                <div class="px-10 md:px-12 flex-grow flex flex-col"> 
+                    <!-- Sektion: Kurzprofil -->
+                    <section class="mb-10">
+                        <h2 class="text-2xl font-bold text-template-text-heading border-b-2 border-template-accent pb-2 mb-4" data-key="profile_title">
+                            KURZPROFIL
+                        </h2>
+                        <p class="text-base leading-relaxed" data-key="profile_text">
+                            Zuverlässiger und praxiserprobter Bauzeichner mit über 20 Jahren Erfahrung in der Tragwerksplanung und Umsetzung komplexer Bauprojekte. Hohe Genauigkeit, unternehmerisches Denken und routinierter Umgang mit Bauunternehmern zeichnen mich aus. Ich bringe fundierte Kenntnisse in CAD-Tools, Baustellenpraxis und Teamarbeit mit.
+                        </p>
+                    </section>
+                    
+                    <!-- Sektion: Berufserfahrung -->
+                    <section class="mb-10">
+                        <h2 class="text-2xl font-bold text-template-text-heading border-b-2 border-template-accent pb-2 mb-6" data-key="experience_title">
+                            BERUFLICHER WERDEGANG
+                        </h2>
+                        
+                        <!-- Einzelner Job-Eintrag -->
+                        <div class="relative pl-6">
+                            <!-- Zeitstrahl-Punkt -->
+                            <div class="absolute left-0 top-1 w-3 h-3 bg-template-accent rounded-full border-2 border-white"></div>
+                            <!-- Zeitstrahl-Linie -->
+                            <div class="absolute left-[5px] top-1 bottom-0 w-px bg-template-accent/50"></div>
+
+                            <div class="flex flex-col md:flex-row justify-between md:items-center mb-1">
+                                <h4 class="text-lg font-semibold text-template-text-heading" data-key="job_1_title">Bauzeichner | Tragwerksplanung</h4>
+                                <span class="text-sm font-medium text-template-text-dark/80" data-key="job_1_date">Seit 2004 - aktuell</span>
+                            </div>
+                            <p class="text-md font-medium text-template-text-dark mb-3">
+                                K. Bitterli + Partner Ingenieure AG, Gelterkinden
+                            </p>
+                            
+                            <ul class="list-disc list-outside pl-5 text-base space-y-2">
+                                <li data-key="job_1_desc_1">Erstellung von Schalungs- und Bewehrungsplänen für komplexe Betonbauprojekte (Hochbau, Industriebau, Infrastrukturprojekte)</li>
+                                <li data-key="job_1_desc_2">Koordination mit Bauunternehmern, Architekten und Projektleitern zur Sicherstellung termingerechter und normkonformer Ausführung</li>
+                                <li data-key="job_1_desc_3">Anwendung von diversen CAD Programme für technische Detailplanungen</li>
+                                <li data-key="job_1_desc_4">Baustellenbegehungen und Qualitätskontrollen zur Überwachung der Bauausführung</li>
+                                <li data-key="job_1_desc_5">Erstellung von Ausmasse und technischen Dokumentationen</li>
+                                <li data-key="job_1_desc_6">Beratung zu bauphysikalischen Anforderungen (Wärme-, Schall- und Feuchteschutz nach SIA-Normen)</li>
+                                <li data-key="job_1_desc_7">Mengenermittlung und Materialbedarfsberechnungen</li>
+                                <li data-key="job_1_desc_8">Ausführungsplanung bei kleinen Stahlbauprojekte inkl. Stücklisten</li>
+                                <li data-key="job_1_desc_9">Koordination mit Baustellen und Baumeistern</li>
+                            </ul>
+                        </div>
+                        <!-- Ende Job-Eintrag -->
+                    </section>
+                    
+                    <!-- Sektion: Fachwissen -->
+                    <section class="mb-10">
+                        <h2 class="text-2xl font-bold text-template-text-heading border-b-2 border-template-accent pb-2 mb-4" data-key="competence_title">
+                            FACHWISSEN & KOMPETENZEN
+                        </h2>
+                        <ul class="list-disc list-outside pl-5 text-base space-y-2 leading-relaxed">
+                            <li data-key="comp_1">Analyse von Bauschäden, technische Beurteilung, Ausmasskontrolle</li>
+                            <li data-key="comp_2">Selbstständige Bearbeitung von Projekten und Planungsaufträgen</li>
+                            <li data-key="comp_3">Digitale Arbeitsmethoden, 3D-Visualisierung mit SketchUp</li>
+                            <li data-key="comp_4">Gutes Gespür für bauliche Abläufe, realistische Einschätzung von Bauprozessen</li>
+                            <li data-key="comp_5">Führungskompetenz und Teamkoordination (durch J+S / UEFA-B-Lizenz)</li>
+                        </ul>
+                    </section>
+
+                     <!-- SEKTION: PERSÖNLICHE STÄRKEN -->
+                     <section class="mb-10">
+                        <h2 class="text-2xl font-bold text-template-text-heading border-b-2 border-template-accent pb-2 mb-4" data-key="strengths_title">
+                            PERSÖNLICHE STÄRKEN
+                        </h2>
+                        <ul class="list-disc list-outside pl-5 text-base space-y-2 leading-relaxed">
+                            <li data-key="str_1">Strategische Visionsgestaltung & Zukunftsplanung</li>
+                            <li data-key="str_2">Konzeptionelle Problemlösung & innovative Geschäftsentwicklung</li>
+                            <li data-key="str_3">Wissensmanagement & kontinuierliche Lernentwicklung</li>
+                            <li data-key="str_4">Interkulturelle Zusammenarbeit & Vermittlungskompetenz</li>
+                            <li data-key="str_5">Systemisches & vernetztes Denken</li>
+                        </ul>
+                    </section>
+
+                    <!-- SEKTION: WISSEN & QUIZ -->
+                    <section class="mb-10">
+                        <h2 class="text-2xl font-bold text-template-text-heading border-b-2 border-template-accent pb-2 mb-4" data-key="quiz_title">
+                            WISSEN & QUIZ
+                        </h2>
+                        <div class="space-y-3">
+                            <!-- Langgezogener Button für das Bauphysik-Quiz (Externer Link) -->
+                            <a href="https://boucinha-account.github.io/Marco-Boucinha-Bauphysik-Quiz/bauphysik-quiz.html" target="_blank" class="w-full bg-white hover:bg-template-sidebar text-template-text-dark font-semibold py-3 px-4 border border-template-accent rounded shadow-sm transition-colors duration-200 flex justify-between items-center group no-underline">
+                                <span data-key="quiz_physics_btn">Bauphysik-Quiz starten</span>
+                                <span class="text-template-accent group-hover:text-template-text-heading transition-colors">➔</span>
+                            </a>
+                            <p class="text-xs text-gray-500 italic text-right mt-1" data-key="quiz_note">* Nur auf Deutsch verfügbar</p>
+                        </div>
+                    </section>
+
+                </div>
+
+                 <!-- DESIGN CREDIT - GETRENNT UNTEN RECHTS -->
+                 <div class="px-10 md:px-12 pb-2 text-right text-xs text-gray-400 mt-auto">
+                    Designed & Created by Marco Paulo Martins Boucinha
+                </div>
+
+            </main>
+            
+        </div>
+       
+        
+    </div>
+
+    <!-- QUIZ MODAL (POPUP) -->
+    <div id="quizModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden-modal">
+        <div class="bg-white rounded-lg shadow-2xl p-8 max-w-lg w-full mx-4 relative">
+            <button onclick="closeQuiz()" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
+            
+            <h3 id="quizTitle" class="text-2xl font-bold text-template-text-heading mb-4">Quiz</h3>
+            
+            <div id="quizContent">
+                <!-- Frage wird hier dynamisch eingefügt -->
+                <p id="quizQuestion" class="text-lg mb-6">Frage lädt...</p>
+                <div id="quizOptions" class="space-y-3">
+                    <!-- Optionen werden hier eingefügt -->
+                </div>
+            </div>
+
+            <div id="quizResult" class="hidden text-center">
+                <p id="quizResultMessage" class="text-xl font-bold mb-4"></p>
+                <button onclick="resetQuiz()" class="bg-pastel-green hover:bg-green-200 text-template-text-dark font-bold py-2 px-4 rounded">Nochmal versuchen</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- AUDIO DATEIEN KONFIGURATION ---
+        // Wenn Sie die anderen Dateien haben, speichern Sie sie mit diesen Namen im Ordner!
+        const podcastFiles = {
+            de: "Marco_Paulo_Martins_Boucinha_Podcast.mp4", // Changed from .M4A to .mp4
+            pt: "podcast_pt.m4a",
+            en: "podcast_en.m4a",
+            fr: "podcast_fr.m4a",
+            it: "podcast_it.m4a",
+            es: "podcast_es.m4a"
+        };
+
+        // --- QUIZ DATEN ---
+        const quizzes = {
+            physics: {
+                title: "Physik-Quiz",
+                questions: [
+                    {
+                        q: "Was besagt das erste Newtonsche Gesetz (Trägheitsgesetz)?",
+                        options: ["Kraft ist Masse mal Beschleunigung", "Ein Körper verharrt im Zustand der Ruhe oder der gleichförmigen Bewegung, solange keine Kraft auf ihn wirkt", "Actio gleich Reactio"],
+                        correct: 1
+                    },
+                    {
+                        q: "Welche Einheit wird für die Kraft verwendet?",
+                        options: ["Watt", "Joule", "Newton"],
+                        correct: 2
+                    },
+                    {
+                        q: "Wie lautet die Formel für die kinetische Energie?",
+                        options: ["E = m * g * h", "E = 0.5 * m * v^2", "E = m * c^2"],
+                        correct: 1
+                    }
+                ]
+            }
+        };
+
+        let currentQuiz = null;
+        let currentQuestionIndex = 0;
+        let score = 0;
+
+        // --- ÜBERSETZUNGS-DATEN ---
+        const translations = {
+            de: {
+                img_missing: "Bild fehlt?", img_click: "Hier klicken", img_select: "zum Auswählen",
+                personal_title: "PERSÖNLICHES", dob_label: "Geburtsdatum:", family_label: "Familienstand:", family_val: "Ehemann von Alexandra (1973) und Vater von Diego (2007)", nation_label: "Staatsangehörigkeit:", nation_val: "Portugal",
+                contact_title: "KONTAKT", address_label: "Adresse:", phone_label: "Telefon:", email_label: "E-Mail:", linkedin_label: "LinkedIn:",
+                education_title: "AUSBILDUNG", edu_1: "Diverse Kurse in CAD-Tools", edu_2: "1 Jahr Hochbautechniker TS, TEKO Fachschule Olten", 
+                edu_3_title: "Eidg. Fähigkeitszeugnis (EFZ) Bauzeichner", edu_3_spec: "Fachrichtung Ingenieurbau",
+                edu_4: "Berufsfachschule Muttenz GIBM", edu_5: "Baustellen-Praktika: Metallbau & Hochbau (Hevron SA / Gnemmi AG (Implenia))", edu_6: "Schulbildung, von Kindergarten bis Oberstufe in Sissach",
+                skills_title: "TECHNISCHE SKILLS",
+                lang_title: "SPRACHEN", lang_de_label: "Deutsch:", lang_de_val: "Muttersprache", lang_pt_label: "Portugiesisch:", lang_pt_val: "Zweite Muttersprache", lang_fr_label: "Französisch:", lang_fr_val: "Gute Schulkenntnisse", lang_it_label: "Italienisch:", lang_it_val: "Gute Sprachkenntnisse", lang_es_label: "Spanisch:", lang_es_val: "Gute Sprachkenntnisse", lang_en_label: "Englisch:", lang_en_val: "Grundkenntnisse (am Lernen)",
+                other_title: "SONSTIGES", driver_b: "Führerschein:", driver_a: "Schiffsführerschein:", js_sport: "J+S - Sportleiter mit UEFA-B-Fußballtrainer-Lizenz", hobbies_label: "Hobbys:", hobbies_val: "Familie, Architektur, Sport allg. Fussball, Finanzen, KI, Lesen/Zeichnen, Reisen und Essen",
+                podcast_title: "PODCAST", podcast_click: "Hier klicken zum Abspielen",
+                main_job_title: "Bauzeichner EFZ | Bautechniker | Spezialist für Betonbauten- & Bewehrungsplanung",
+                profile_title: "KURZPROFIL", profile_text: "Zuverlässiger und praxiserprobter Bauzeichner mit über 20 Jahren Erfahrung in der Tragwerksplanung und Umsetzung komplexer Bauprojekte. Hohe Genauigkeit, unternehmerisches Denken und routinierter Umgang mit Bauunternehmern zeichnen mich aus. Ich bringe fundierte Kenntnisse in CAD-Tools, Baustellenpraxis und Teamarbeit mit.",
+                experience_title: "BERUFLICHER WERDEGANG", 
+                job_1_title: "Bauzeichner | Tragwerksplanung", 
+                job_1_date: "Seit 2004 - aktuell", 
+                job_1_desc_1: "Erstellung von Schalungs- und Bewehrungsplänen für komplexe Betonbauprojekte (Hochbau, Industriebau, Infrastrukturprojekte)", 
+                job_1_desc_2: "Koordination mit Bauunternehmern, Architekten und Projektleitern zur Sicherstellung termingerechter und normkonformer Ausführung", 
+                job_1_desc_3: "Anwendung von diversen CAD Programme für technische Detailplanungen", 
+                job_1_desc_4: "Baustellenbegehungen und Qualitätskontrollen zur Überwachung der Bauausführung", 
+                job_1_desc_5: "Erstellung von Ausmasse und technischen Dokumentationen", 
+                job_1_desc_6: "Beratung zu bauphysikalischen Anforderungen (Wärme-, Schall- und Feuchteschutz nach SIA-Normen)",
+                job_1_desc_7: "Mengenermittlung und Materialbedarfsberechnungen",
+                job_1_desc_8: "Ausführungsplanung bei kleinen Stahlbauprojekte inkl. Stücklisten",
+                job_1_desc_9: "Koordination mit Baustellen und Baumeistern",
+                competence_title: "FACHWISSEN & KOMPETENZEN", comp_1: "Analyse von Bauschäden, technische Beurteilung, Ausmasskontrolle", comp_2: "Selbstständige Bearbeitung von Projekten und Planungsaufträgen", comp_3: "Digitale Arbeitsmethoden, 3D-Visualisierung mit SketchUp", comp_4: "Gutes Gespür für bauliche Abläufe, realistische Einschätzung von Bauprozessen", comp_5: "Führungskompetenz und Teamkoordination (durch J+S / UEFA-B-Lizenz)",
+                strengths_title: "PERSÖNLICHE STÄRKEN", str_1: "Strategische Visionsgestaltung & Zukunftsplanung", str_2: "Konzeptionelle Problemlösung & innovative Geschäftsentwicklung", str_3: "Wissensmanagement & kontinuierliche Lernentwicklung", str_4: "Interkulturelle Zusammenarbeit & Vermittlungskompetenz", str_5: "Systemisches & vernetztes Denken",
+                quiz_title: "WISSEN & QUIZ", quiz_physics_btn: "Bauphysik-Quiz starten", quiz_note: "* Nur auf Deutsch verfügbar"
+            },
+            pt: {
+                img_missing: "Sem imagem?", img_click: "Clique aqui", img_select: "para selecionar",
+                personal_title: "DADOS PESSOAIS", dob_label: "Data de nascimento:", family_label: "Estado civil:", family_val: "Casado com Alexandra (1973) e pai de Diego (2007)", nation_label: "Nacionalidade:", nation_val: "Portugal",
+                contact_title: "CONTACTO", address_label: "Endereço:", phone_label: "Telefone:", email_label: "E-Mail:", linkedin_label: "LinkedIn:",
+                education_title: "FORMAÇÃO", edu_1: "Diversos cursos em ferramentas CAD", edu_2: "1 ano Técnico de Construção Civil TS, TEKO Fachschule Olten", 
+                edu_3_title: "Certificado Federal de Capacidade (EFZ) Desenhador", edu_3_spec: "Especialização Engenharia Civil",
+                edu_4: "Escola Profissional Muttenz GIBM", edu_5: "Estágios de Obra: Construção Metálica e Civil (Hevron SA / Gnemmi AG (Implenia))", edu_6: "Educação escolar, do jardim de infância ao ensino secundário em Sissach",
+                skills_title: "COMPETÊNCIAS TÉCNICAS",
+                lang_title: "IDIOMAS", lang_de_label: "Alemão:", lang_de_val: "Língua materna", lang_pt_label: "Português:", lang_pt_val: "Segunda língua materna", lang_fr_label: "Francês:", lang_fr_val: "Bons conhecimentos escolares", lang_it_label: "Italiano:", lang_it_val: "Bons conhecimentos", lang_es_label: "Espanhol:", lang_es_val: "Bons conhecimentos", lang_en_label: "Inglês:", lang_en_val: "Conhecimentos básicos (a aprender)",
+                other_title: "OUTROS", driver_b: "Carta de condução:", driver_a: "Carta de navegador:", js_sport: "J+S - Líder desportivo com licença de treinador UEFA-B", hobbies_label: "Hobbies:", hobbies_val: "Família, Arquitetura, Desporto (Futebol), Finanças, IA, Leitura/Desenho, Viagens e Gastronomia",
+                podcast_title: "PODCAST", podcast_click: "Clique aqui para reproduzir",
+                main_job_title: "Desenhador Civil EFZ | Técnico de Construção | Especialista em Estruturas de Betão e Armaduras",
+                profile_title: "PERFIL RESUMIDO", profile_text: "Desenhador de construção confiável e experiente com mais de 20 anos de experiência no planeamento estrutural e implementação de projetos de construção complexos. Alta precisão, pensamento empreendedor e rotina no trato com empreiteiros distinguem-me. Trago conhecimentos sólidos em ferramentas CAD, prática de obra e trabalho em equipa.",
+                experience_title: "PERCURSO PROFISSIONAL", 
+                job_1_title: "Desenhador | Planeamento Estrutural", 
+                job_1_date: "Desde 2004 - atual", 
+                job_1_desc_1: "Elaboração de planos de cofragem e armadura para projetos complexos de betão (edifícios, construção industrial, infraestruturas)", 
+                job_1_desc_2: "Coordenação com empreiteiros, arquitetos e gestores de projeto para garantir a execução dentro do prazo e das normas", 
+                job_1_desc_3: "Utilização de diversos programas CAD para planeamento técnico detalhado", 
+                job_1_desc_4: "Visitas a obras e controlo de qualidade para supervisão da execução", 
+                job_1_desc_5: "Elaboração de medições e documentação técnica", 
+                job_1_desc_6: "Consultoria sobre requisitos de física da construção (isolamento térmico, acústico e proteção contra humidade segundo normas SIA)",
+                job_1_desc_7: "Levantamento de quantidades e cálculo de necessidades de materiais",
+                job_1_desc_8: "Planeamento de execução de pequenos projetos de construção em aço, incl. listas de peças",
+                job_1_desc_9: "Coordenação com estaleiros e mestres de obras",
+                competence_title: "CONHECIMENTOS E COMPETÊNCIAS", comp_1: "Análise de danos estruturais, avaliação técnica, controlo de medições", comp_2: "Processamento independente de projetos e ordens de planeamento", comp_3: "Métodos de trabalho digitais, visualização 3D com SketchUp", comp_4: "Bom senso para processos construtivos, avaliação realista de obras", comp_5: "Competência de liderança e coordenação de equipas (através de licença UEFA-B)",
+                strengths_title: "PONTOS FORTES PESSOAIS", str_1: "Criação de Visão Estratégica & Planeamento Futuro", str_2: "Resolução Conceitual de Problemas & Desenvolvimento de Negócios Inovador", str_3: "Gestão de Conhecimento & Desenvolvimento de Aprendizagem Contínuo", str_4: "Cooperação Intercultural & Competência de Mediação", str_5: "Pensamento Sistémico & Em Rede",
+                quiz_title: "CONHECIMENTO & QUIZ", quiz_physics_btn: "Iniciar Quiz de Física da Construção", quiz_note: "* Disponível apenas em alemão"
+            },
+            en: {
+                img_missing: "No image?", img_click: "Click here", img_select: "to select",
+                personal_title: "PERSONAL", dob_label: "Date of Birth:", family_label: "Marital Status:", family_val: "Husband of Alexandra (1973) and father of Diego (2007)", nation_label: "Nationality:", nation_val: "Portugal",
+                contact_title: "CONTACT", address_label: "Address:", phone_label: "Phone:", email_label: "Email:", linkedin_label: "LinkedIn:",
+                education_title: "EDUCATION", edu_1: "Various courses in CAD tools", edu_2: "1 year Structural Engineering Technician TS, TEKO Olten", 
+                edu_3_title: "Federal VET Diploma (EFZ) Draftsman", edu_3_spec: "Specialization Structural Engineering",
+                edu_4: "Vocational School Muttenz GIBM", edu_5: "Construction Site Internships: Metal & Structural Engineering", edu_6: "School education, kindergarten to secondary school in Sissach",
+                skills_title: "TECHNICAL SKILLS",
+                lang_title: "LANGUAGES", lang_de_label: "German:", lang_de_val: "Native language", lang_pt_label: "Portuguese:", lang_pt_val: "Second native language", lang_fr_label: "French:", lang_fr_val: "Good school knowledge", lang_it_label: "Italian:", lang_it_val: "Good knowledge", lang_es_label: "Spanish:", lang_es_val: "Good knowledge", lang_en_label: "English:", lang_en_val: "Basic knowledge (learning)",
+                other_title: "OTHER", driver_b: "Driving License:", driver_a: "Boat License:", js_sport: "J+S - Sports Leader with UEFA-B Football Coach License", hobbies_label: "Hobbies:", hobbies_val: "Family, Architecture, Sports (Football), Finance, AI, Reading/Drawing, Travel and Food",
+                podcast_title: "PODCAST", podcast_click: "Click here to play",
+                main_job_title: "Draftsman EFZ | Construction Technician | Specialist for Concrete Structures & Reinforcement",
+                profile_title: "PROFILE", profile_text: "Reliable and experienced draftsman with over 20 years of experience in structural planning and implementation of complex construction projects. High accuracy, entrepreneurial thinking, and routine interaction with contractors distinguish me. I bring solid knowledge in CAD tools, construction site practice, and teamwork.",
+                experience_title: "PROFESSIONAL EXPERIENCE", 
+                job_1_title: "Draftsman | Structural Planning", 
+                job_1_date: "Since 2004 - current", 
+                job_1_desc_1: "Creation of formwork and reinforcement plans for complex concrete construction projects (building construction, industrial construction, infrastructure projects)", 
+                job_1_desc_2: "Coordination with contractors, architects, and project managers to ensure timely and compliant execution", 
+                job_1_desc_3: "Application of various CAD programs for technical detailed planning", 
+                job_1_desc_4: "Site visits and quality controls to monitor construction execution", 
+                job_1_desc_5: "Preparation of measurements and technical documentation", 
+                job_1_desc_6: "Advice on building physics requirements (thermal, sound, and moisture protection according to SIA standards)",
+                job_1_desc_7: "Quantity surveying and material requirement calculations",
+                job_1_desc_8: "Execution planning for small steel construction projects incl. parts lists",
+                job_1_desc_9: "Coordination with construction sites and builders",
+                competence_title: "EXPERTISE & COMPETENCIES", comp_1: "Analysis of structural damage, technical assessment, measurement control", comp_2: "Independent processing of projects and planning orders", comp_3: "Digital working methods, 3D visualization with SketchUp", comp_4: "Good sense for construction sequences, realistic assessment of building processes", comp_5: "Leadership competence and team coordination (UEFA-B License)",
+                strengths_title: "PERSONAL STRENGTHS", str_1: "Strategic Visioning & Future Planning", str_2: "Conceptual Problem Solving & Innovative Business Development", str_3: "Knowledge Management & Continuous Learning Development", str_4: "Intercultural Cooperation & Mediation Competence", str_5: "Systemic & Networked Thinking",
+                quiz_title: "KNOWLEDGE & QUIZ", quiz_physics_btn: "Start Building Physics Quiz", quiz_note: "* Only available in German"
+            },
+            fr: {
+                img_missing: "Image manquante?", img_click: "Cliquez ici", img_select: "pour choisir",
+                personal_title: "PERSONNEL", dob_label: "Date de naissance:", family_label: "État civil:", family_val: "Marié à Alexandra (1973) et père de Diego (2007)", nation_label: "Nationalité:", nation_val: "Portugal",
+                contact_title: "CONTACT", address_label: "Adresse:", phone_label: "Téléphone:", email_label: "E-Mail:", linkedin_label: "LinkedIn:",
+                education_title: "FORMATION", edu_1: "Divers cours d'outils CAO", edu_2: "1 an Technicien en bâtiment TS, TEKO Olten", 
+                edu_3_title: "Certificat fédéral de capacité (CFC) Dessinateur", edu_3_spec: "Orientation Génie Civil",
+                edu_4: "École professionnelle Muttenz GIBM", edu_5: "Stages de chantier: Construction métallique & Bâtiment", edu_6: "Scolarité complète à Sissach",
+                skills_title: "COMPÉTENCES TECHNIQUES",
+                lang_title: "LANGUES", lang_de_label: "Allemand:", lang_de_val: "Langue maternelle", lang_pt_label: "Portugais:", lang_pt_val: "Deuxième langue maternelle", lang_fr_label: "Français:", lang_fr_val: "Bonnes connaissances scolaires", lang_it_label: "Italien:", lang_it_val: "Bonnes connaissances", lang_es_label: "Espagnol:", lang_es_val: "Bonnes connaissances", lang_en_label: "Anglais:", lang_en_val: "Connaissances de base (en apprentissage)",
+                other_title: "DIVERS", driver_b: "Permis de conduire:", driver_a: "Permis bateau:", js_sport: "J+S - Moniteur de sport avec licence UEFA-B", hobbies_label: "Loisirs:", hobbies_val: "Famille, Architecture, Sport (Football), Finances, IA, Lecture/Dessin, Voyages",
+                podcast_title: "PODCAST", podcast_click: "Cliquez pour écouter",
+                main_job_title: "Dessinateur en bâtiment CFC | Technicien | Spécialiste béton et armatures",
+                profile_title: "PROFIL", profile_text: "Dessinateur fiable et expérimenté avec plus de 20 ans d'expérience dans la planification structurelle. Haute précision, pensée entrepreneuriale et routine avec les entrepreneurs me distinguent.",
+                experience_title: "EXPÉRIENCE PROFESSIONNELLE", 
+                job_1_title: "Dessinateur | Planification structurelle", 
+                job_1_date: "Depuis 2004 - actuel", 
+                job_1_desc_1: "Création de plans de coffrage et d'armature pour des projets complexes en béton (bâtiment, construction industrielle, infrastructures)", 
+                job_1_desc_2: "Coordination avec les entrepreneurs, architectes et chefs de projet pour garantir une exécution conforme et dans les délais", 
+                job_1_desc_3: "Utilisation de divers programmes CAO pour la planification technique détaillée", 
+                job_1_desc_4: "Visites de chantier et contrôles qualité pour surveiller l'exécution des travaux", 
+                job_1_desc_5: "Établissement de métrés et de documentation technique", 
+                job_1_desc_6: "Conseil sur les exigences de physique du bâtiment (protection thermique, phonique et contre l'humidité selon les normes SIA)",
+                job_1_desc_7: "Métré et calcul des besoins en matériaux",
+                job_1_desc_8: "Planification d'exécution pour petits projets de construction métallique, y compris listes de pièces",
+                job_1_desc_9: "Coordination avec les chantiers et les maîtres d'œuvre",
+                competence_title: "EXPERTISE", comp_1: "Analyse de dommages structurels, évaluation technique", comp_2: "Traitement indépendant de projets", comp_3: "Méthodes numériques, visualisation 3D (SketchUp)", comp_4: "Bon sens des processus de construction", comp_5: "Compétence de leadership (Licence UEFA-B)",
+                strengths_title: "FORCES PERSONNELLES", str_1: "Conception de vision stratégique & Planification future", str_2: "Résolution conceptuelle de problèmes & Développement commercial innovant", str_3: "Gestion des connaissances & Développement de l'apprentissage continu", str_4: "Coopération interculturelle & Compétence de médiation", str_5: "Pensée systémique & en réseau",
+                quiz_title: "CONNAISSANCES & QUIZ", quiz_physics_btn: "Démarrer le quiz de physique du bâtiment", quiz_note: "* Disponible uniquement en allemand"
+            },
+            it: {
+                img_missing: "Manca l'immagine?", img_click: "Clicca qui", img_select: "per selezionare",
+                personal_title: "DATI PERSONALI", dob_label: "Data di nascita:", family_label: "Stato civile:", family_val: "Sposato con Alexandra (1973) e padre di Diego (2007)", nation_label: "Nazionalità:", nation_val: "Portogallo",
+                contact_title: "CONTATTO", address_label: "Indirizzo:", phone_label: "Telefono:", email_label: "E-Mail:", linkedin_label: "LinkedIn:",
+                education_title: "FORMAZIONE", edu_1: "Vari corsi di strumenti CAD", edu_2: "1 anno Tecnico edile TS, TEKO Olten", 
+                edu_3_title: "Attestato federale di capacità (AFC) Disegnatore", edu_3_spec: "Indirizzo Ingegneria Civile",
+                edu_4: "Scuola professionale Muttenz GIBM", edu_5: "Stage in cantiere: Costruzioni metalliche ed edilizia", edu_6: "Scuola dell'obbligo a Sissach",
+                skills_title: "COMPETENZE TECNICHE",
+                lang_title: "LINGUE", lang_de_label: "Tedesco:", lang_de_val: "Madrelingua", lang_pt_label: "Portoghese:", lang_pt_val: "Seconda madrelingua", lang_fr_label: "Francese:", lang_fr_val: "Buone conoscenze scolastiche", lang_it_label: "Italiano:", lang_it_val: "Buone conoscenze", lang_es_label: "Spagnolo:", lang_es_val: "Buone conoscenze", lang_en_label: "Inglese:", lang_en_val: "Conoscenze di base (in apprendimento)",
+                other_title: "ALTRO", driver_b: "Patente di guida:", driver_a: "Patente nautica:", js_sport: "J+S - Istruttore sportivo con licenza UEFA-B", hobbies_label: "Hobby:", hobbies_val: "Famiglia, Architettura, Sport (Calcio), Finanza, IA, Lettura/Disegno, Viaggi",
+                podcast_title: "PODCAST", podcast_click: "Clicca per ascoltare",
+                main_job_title: "Disegnatore edile AFC | Tecnico | Specialista in cemento armato",
+                profile_title: "PROFILO", profile_text: "Disegnatore affidabile ed esperto con oltre 20 anni di esperienza nella progettazione strutturale. Alta precisione e pensiero imprenditoriale mi contraddistinguono.",
+                experience_title: "ESPERIENZA PROFESSIONALE", 
+                job_1_title: "Disegnatore | Pianificazione strutturale", 
+                job_1_date: "Dal 2004 - attuale", 
+                job_1_desc_1: "Creazione di piani di cassaforma e armatura per progetti complessi in calcestruzzo (edilizia, costruzioni industriali, infrastrutture)", 
+                job_1_desc_2: "Coordinamento con imprenditori, architetti e responsabili di progetto per garantire un'esecuzione puntuale e conforme alle norme", 
+                job_1_desc_3: "Utilizzo di vari programmi CAD per la pianificazione tecnica dettagliata", 
+                job_1_desc_4: "Sopralluoghi in cantiere e controlli di qualità per monitorare l'esecuzione dei lavori", 
+                job_1_desc_5: "Elaborazione di computi metrici e documentazione tecnica", 
+                job_1_desc_6: "Consulenza sui requisiti di fisica delle costruzioni (isolamento termico, acustico e protezione dall'umidità secondo le norme SIA)",
+                job_1_desc_7: "Computo metrico e calcolo del fabbisogno di materiali",
+                job_1_desc_8: "Pianificazione esecutiva per piccoli progetti di costruzione in acciaio, incluse distinte base",
+                job_1_desc_9: "Coordinamento con i cantieri e i capimastri",
+                competence_title: "COMPETENZE", comp_1: "Analisi dei danni strutturali, valutazione tecnica", comp_2: "Elaborazione indipendente di progetti", comp_3: "Metodi di lavoro digitali, visualizzazione 3D", comp_4: "Buon senso per i processi costruttivi", comp_5: "Competenza di leadership (Licenza UEFA-B)",
+                strengths_title: "PUNTI DI FORZA PERSONALI", str_1: "Creazione di visioni strategiche & Pianificazione futura", str_2: "Risoluzione concettuale dei problemi & Sviluppo aziendale innovativo", str_3: "Gestione della conoscenza & Sviluppo dell'apprendimento continuo", str_4: "Cooperazione interculturale & Competenza di mediazione", str_5: "Pensiero sistemico & interconnesso",
+                quiz_title: "CONOSCENZE & QUIZ", quiz_physics_btn: "Avvia Quiz di Fisica delle Costruzioni", quiz_note: "* Disponibile solo in tedesco"
+            },
+            es: {
+                img_missing: "¿Falta imagen?", img_click: "Clic aquí", img_select: "para seleccionar",
+                personal_title: "DATOS PERSONALES", dob_label: "Fecha de nacimiento:", family_label: "Estado civil:", family_val: "Casado con Alexandra (1973) y padre de Diego (2007)", nation_label: "Nacionalidad:", nation_val: "Portugal",
+                contact_title: "CONTACTO", address_label: "Dirección:", phone_label: "Teléfono:", email_label: "E-Mail:", linkedin_label: "LinkedIn:",
+                education_title: "FORMACIÓN", edu_1: "Varios cursos de herramientas CAD", edu_2: "1 año Técnico de construcción TS, TEKO Olten", 
+                edu_3_title: "Certificado Federal de Capacidad (CFC) Dibujante", edu_3_spec: "Especialidad Ingeniería Civil",
+                edu_4: "Escuela profesional Muttenz GIBM", edu_5: "Prácticas de obra: Construcción metálica y edificación", edu_6: "Escolaridad en Sissach",
+                skills_title: "HABILIDADES TÉCNICAS",
+                lang_title: "IDIOMAS", lang_de_label: "Alemán:", lang_de_val: "Lengua materna", lang_pt_label: "Portugués:", lang_pt_val: "Segunda lengua materna", lang_fr_label: "Francés:", lang_fr_val: "Buenos conocimientos escolares", lang_it_label: "Italiano:", lang_it_val: "Buenos conocimientos", lang_es_label: "Español:", lang_es_val: "Buenos conocimientos", lang_en_label: "Inglés:", lang_en_val: "Conocimientos básicos (aprendiendo)",
+                other_title: "OTROS", driver_b: "Licencia de conducir:", driver_a: "Licencia de barco:", js_sport: "J+S - Monitor deportivo con licencia UEFA-B", hobbies_label: "Hobbies:", hobbies_val: "Familia, Arquitetura, Deporte (Fútbol), Finanzas, IA, Lectura/Dibujo, Viajes",
+                podcast_title: "PODCAST", podcast_click: "Clic para reproducir",
+                main_job_title: "Dibujante de construcción | Técnico | Especialista en hormigón y armaduras",
+                profile_title: "PERFIL", profile_text: "Dibujante fiable y experimentado con más de 20 años de experiencia en planificación estructural. Alta precisión y pensamiento empresarial me distinguen.",
+                experience_title: "EXPERIENCIA PROFESIONAL", 
+                job_1_title: "Dibujante | Planificación Estructural", 
+                job_1_date: "Desde 2004 - actual", 
+                job_1_desc_1: "Creación de planos de encofrado y armadura para proyectos complejos de hormigón (edificación, construcción industrial, infraestructuras)", 
+                job_1_desc_2: "Coordinación con contratistas, arquitectos y jefes de proyecto para garantizar una ejecución puntual y conforme a las normas", 
+                job_1_desc_3: "Uso de varios programas CAD para la planificación técnica detallada", 
+                job_1_desc_4: "Visitas de obra y controles de calidad para supervisar la ejecución de la construcción", 
+                job_1_desc_5: "Elaboración de mediciones y documentación técnica", 
+                job_1_desc_6: "Asesoramiento sobre requisitos de física de la construcción (aislamiento térmico, acústico y protección contra la humedad según normas SIA)",
+                job_1_desc_7: "Medición de cantidades y cálculo de necesidades de materiales",
+                job_1_desc_8: "Planificación de ejecución para pequeños proyectos de construcción de acero, incl. listas de piezas",
+                job_1_desc_9: "Coordinación con las obras y los maestros de obra",
+                competence_title: "COMPETENCIAS", comp_1: "Análisis de daños estructurales, evaluación técnica", comp_2: "Procesamiento independiente de proyectos", comp_3: "Métodos de trabajo digitales, visualización 3D", comp_4: "Buen sentido de los procesos de construcción", comp_5: "Competencia de liderazgo (Licencia UEFA-B)",
+                strengths_title: "FORTALEZAS PERSONALES", str_1: "Diseño de visión estratégica & Planificación futura", str_2: "Resolución conceptual de problemas & Desarrollo empresarial innovador", str_3: "Gestión del conocimiento & Desarrollo de aprendizaje continuo", str_4: "Cooperazione intercultural & Competencia de mediación", str_5: "Pensamiento sistémico & en red",
+                quiz_title: "CONOCIMIENTO & QUIZ", quiz_physics_btn: "Iniciar Cuestionario de Física de la Construcción", quiz_note: "* Solo disponible en alemán"
+            }
+        };
+
+        function changeLanguage(lang) {
+            const elements = document.querySelectorAll('[data-key]');
+            elements.forEach(el => {
+                const key = el.getAttribute('data-key');
+                if (translations[lang] && translations[lang][key]) {
+                    el.innerText = translations[lang][key];
+                }
+            });
+            
+            // --- AUDIO-QUELLE WECHSELN ---
+            const audio = document.getElementById('podcastPlayer');
+            const playIcon = document.getElementById('playIcon');
+            const pauseIcon = document.getElementById('pauseIcon');
+            
+            if (audio) {
+                if (!audio.paused) {
+                    audio.pause();
+                    playIcon.classList.remove('hidden');
+                    pauseIcon.classList.add('hidden');
+                }
+                audio.src = podcastFiles[lang] || podcastFiles['de'];
+            }
+        }
+
+        // --- BILD UPLOAD ---
+        function loadImage(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    const img = document.getElementById('profileImage');
+                    const placeholder = document.getElementById('uploadPlaceholder');
+                    img.src = e.target.result;
+                    img.classList.remove('hidden');
+                    placeholder.classList.add('hidden');
+                    try { localStorage.setItem('profileImage', e.target.result); } catch (e) {}
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', (event) => {
+            // Bild laden
+            const savedImage = localStorage.getItem('profileImage');
+            const img = document.getElementById('profileImage');
+            const placeholder = document.getElementById('uploadPlaceholder');
+            if (savedImage) {
+                img.src = savedImage;
+                img.classList.remove('hidden');
+                placeholder.classList.add('hidden');
+            } else {
+                img.onerror = function() { img.classList.add('hidden'); placeholder.classList.remove('hidden'); };
+                img.src = "unnamed.jpg";
+            }
+
+            // Podcast
+            const audio = document.getElementById('podcastPlayer');
+            const playButton = document.getElementById('podcastPlayButton');
+            const playIcon = document.getElementById('playIcon');
+            const pauseIcon = document.getElementById('pauseIcon');
+
+            if (playButton && audio) {
+                playButton.addEventListener('click', () => {
+                    if (audio.paused) {
+                        const playPromise = audio.play();
+                        if (playPromise !== undefined) {
+                            playPromise.catch(error => {
+                                let currentSrc = audio.src.split('/').pop(); 
+                                alert("Audiodatei '" + currentSrc + "' nicht gefunden. Bitte stellen Sie sicher, dass sie im selben Ordner liegt.");
+                            });
+                        }
+                        playIcon.classList.add('hidden');
+                        pauseIcon.classList.remove('hidden');
+                    } else {
+                        audio.pause();
+                        playIcon.classList.remove('hidden');
+                        pauseIcon.classList.add('hidden');
+                    }
+                });
+                audio.addEventListener('ended', () => {
+                    playIcon.classList.remove('hidden');
+                    pauseIcon.classList.add('hidden');
+                });
+            }
+        });
+
+        // --- QUIZ LOGIK ---
+        function openQuiz(type) {
+            if (quizzes[type]) {
+                currentQuiz = quizzes[type];
+                currentQuestionIndex = 0;
+                score = 0;
+                document.getElementById('quizTitle').innerText = currentQuiz.title;
+                document.getElementById('quizResult').classList.add('hidden');
+                document.getElementById('quizContent').classList.remove('hidden');
+                document.getElementById('quizModal').classList.remove('hidden-modal');
+                document.getElementById('quizModal').classList.add('visible-modal');
+                showQuestion();
+            }
+        }
+
+        function closeQuiz() {
+            const modal = document.getElementById('quizModal');
+            modal.classList.remove('visible-modal');
+            modal.classList.add('hidden-modal');
+        }
+
+        function showQuestion() {
+            const q = currentQuiz.questions[currentQuestionIndex];
+            document.getElementById('quizQuestion').innerText = q.q;
+            const optionsDiv = document.getElementById('quizOptions');
+            optionsDiv.innerHTML = '';
+            
+            q.options.forEach((opt, index) => {
+                const btn = document.createElement('button');
+                btn.className = "w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-100 transition-colors";
+                btn.innerText = opt;
+                btn.onclick = () => checkAnswer(index);
+                optionsDiv.appendChild(btn);
+            });
+        }
+
+        function checkAnswer(selectedIndex) {
+            const q = currentQuiz.questions[currentQuestionIndex];
+            if (selectedIndex === q.correct) {
+                score++;
+            }
+            currentQuestionIndex++;
+            if (currentQuestionIndex < currentQuiz.questions.length) {
+                showQuestion();
+            } else {
+                showResult();
+            }
+        }
+
+        function showResult() {
+            document.getElementById('quizContent').classList.add('hidden');
+            document.getElementById('quizResult').classList.remove('hidden');
+            const percentage = (score / currentQuiz.questions.length) * 100;
+            let msg = `Sie haben ${score} von ${currentQuiz.questions.length} Fragen richtig beantwortet.`;
+            if (percentage === 100) msg += " Hervorragend!";
+            else if (percentage >= 70) msg += " Gut gemacht!";
+            document.getElementById('quizResultMessage').innerText = msg;
+        }
+
+        function resetQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            document.getElementById('quizResult').classList.add('hidden');
+            document.getElementById('quizContent').classList.remove('hidden');
+            showQuestion();
+        }
+    </script>
+
+</body>
+</html>
