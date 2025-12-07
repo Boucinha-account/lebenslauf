@@ -127,7 +127,7 @@
                 <div class="flex justify-center mb-6 relative group">
                     <div class="w-40 h-40 relative overflow-hidden rounded-full border-4 border-white shadow-md"> 
                         <img id="profileImage" 
-                             src="unnamed.jpg" 
+                             src="marco.png" 
                              alt="Profilbild Marco Boucinha" 
                              class="hidden"
                              onerror="this.classList.add('hidden'); document.getElementById('uploadPlaceholder').classList.remove('hidden');">
@@ -225,11 +225,18 @@
                     </div>
                 </section>
                 
-                <!-- Sektion: Sprachen (MIT FLAGGEN) -->
+                <!-- Sektion: Sprachen (MIT HINWEIS) -->
                 <section class="mb-8">
-                    <h3 class="text-xl font-bold text-template-text-heading border-b-2 border-template-accent pb-2 mb-3" data-key="lang_title">
-                        SPRACHEN
-                    </h3>
+                    <!-- HIER GEÄNDERT: Header als Flexbox für Titel und Hinweis -->
+                    <div class="flex justify-between items-baseline border-b-2 border-template-accent pb-2 mb-3">
+                        <h3 class="text-xl font-bold text-template-text-heading" data-key="lang_title">
+                            SPRACHEN
+                        </h3>
+                        <span class="text-xs text-gray-500 font-normal italic" data-key="lang_hint">
+                            (Klicke auf Fahne)
+                        </span>
+                    </div>
+
                     <div class="text-sm space-y-2">
                         <div class="flex items-center">
                             <button onclick="changeLanguage('de')" class="flag-btn" title="Deutsch">🇩🇪</button>
@@ -299,13 +306,14 @@
                         </svg>
                     </button>
                     <div id="podcastStatus" class="text-xs text-gray-500 mt-2" data-key="podcast_click">Hier klicken zum Abspielen</div>
-                    <audio id="podcastPlayer" src="Marco_Paulo_Martins_Boucinha_Podcast.mp4"></audio>
+                    
+                    <audio id="podcastPlayer" src="Marco_Paulo_Martins_Boucinha_Podcast.m4a"></audio>
                 </section>
 
             </aside>
             
             <!-- Rechte Spalte (Hauptinhalt) -->
-            <main class="w-full md:w-2/3 flex flex-col h-full relative">
+            <main class="w-full md:w-2/3 flex flex-col h-full">
                 <!-- Header-Bereich -->
                 <div class="bg-pastel-green p-10 md:p-12 text-center md:text-left mb-10 transition-colors duration-300">
                     <h1 class="text-5xl md:text-6xl font-bold text-template-text-heading">
@@ -319,7 +327,7 @@
                 </div>
 
                 <!-- Hauptinhalt Container, der den Rest füllt -->
-                <div class="px-10 md:px-12 flex-grow flex flex-col"> 
+                <div class="px-10 md:px-12 pb-10 flex-grow flex flex-col"> 
                     <!-- Sektion: Kurzprofil -->
                     <section class="mb-10">
                         <h2 class="text-2xl font-bold text-template-text-heading border-b-2 border-template-accent pb-2 mb-4" data-key="profile_title">
@@ -395,7 +403,7 @@
                     </section>
 
                     <!-- SEKTION: WISSEN & QUIZ -->
-                    <section class="mb-10">
+                    <section class="mb-auto"> <!-- mb-auto drückt den Footer nach unten -->
                         <h2 class="text-2xl font-bold text-template-text-heading border-b-2 border-template-accent pb-2 mb-4" data-key="quiz_title">
                             WISSEN & QUIZ
                         </h2>
@@ -449,7 +457,7 @@
         // --- AUDIO DATEIEN KONFIGURATION ---
         // Wenn Sie die anderen Dateien haben, speichern Sie sie mit diesen Namen im Ordner!
         const podcastFiles = {
-            de: "Marco_Paulo_Martins_Boucinha_Podcast.mp4", // Changed from .M4A to .mp4
+            de: "Marco_Paulo_Martins_Boucinha_Podcast.m4a",
             pt: "podcast_pt.m4a",
             en: "podcast_en.m4a",
             fr: "podcast_fr.m4a",
@@ -495,7 +503,7 @@
                 edu_3_title: "Eidg. Fähigkeitszeugnis (EFZ) Bauzeichner", edu_3_spec: "Fachrichtung Ingenieurbau",
                 edu_4: "Berufsfachschule Muttenz GIBM", edu_5: "Baustellen-Praktika: Metallbau & Hochbau (Hevron SA / Gnemmi AG (Implenia))", edu_6: "Schulbildung, von Kindergarten bis Oberstufe in Sissach",
                 skills_title: "TECHNISCHE SKILLS",
-                lang_title: "SPRACHEN", lang_de_label: "Deutsch:", lang_de_val: "Muttersprache", lang_pt_label: "Portugiesisch:", lang_pt_val: "Zweite Muttersprache", lang_fr_label: "Französisch:", lang_fr_val: "Gute Schulkenntnisse", lang_it_label: "Italienisch:", lang_it_val: "Gute Sprachkenntnisse", lang_es_label: "Spanisch:", lang_es_val: "Gute Sprachkenntnisse", lang_en_label: "Englisch:", lang_en_val: "Grundkenntnisse (am Lernen)",
+                lang_title: "SPRACHEN", lang_hint: "(Klicke auf Fahne)", lang_de_label: "Deutsch:", lang_de_val: "Muttersprache", lang_pt_label: "Portugiesisch:", lang_pt_val: "Zweite Muttersprache", lang_fr_label: "Französisch:", lang_fr_val: "Gute Schulkenntnisse", lang_it_label: "Italienisch:", lang_it_val: "Gute Sprachkenntnisse", lang_es_label: "Spanisch:", lang_es_val: "Gute Sprachkenntnisse", lang_en_label: "Englisch:", lang_en_val: "Grundkenntnisse (am Lernen)",
                 other_title: "SONSTIGES", driver_b: "Führerschein:", driver_a: "Schiffsführerschein:", js_sport: "J+S - Sportleiter mit UEFA-B-Fußballtrainer-Lizenz", hobbies_label: "Hobbys:", hobbies_val: "Familie, Architektur, Sport allg. Fussball, Finanzen, KI, Lesen/Zeichnen, Reisen und Essen",
                 podcast_title: "PODCAST", podcast_click: "Hier klicken zum Abspielen",
                 main_job_title: "Bauzeichner EFZ | Bautechniker | Spezialist für Betonbauten- & Bewehrungsplanung",
@@ -524,7 +532,7 @@
                 edu_3_title: "Certificado Federal de Capacidade (EFZ) Desenhador", edu_3_spec: "Especialização Engenharia Civil",
                 edu_4: "Escola Profissional Muttenz GIBM", edu_5: "Estágios de Obra: Construção Metálica e Civil (Hevron SA / Gnemmi AG (Implenia))", edu_6: "Educação escolar, do jardim de infância ao ensino secundário em Sissach",
                 skills_title: "COMPETÊNCIAS TÉCNICAS",
-                lang_title: "IDIOMAS", lang_de_label: "Alemão:", lang_de_val: "Língua materna", lang_pt_label: "Português:", lang_pt_val: "Segunda língua materna", lang_fr_label: "Francês:", lang_fr_val: "Bons conhecimentos escolares", lang_it_label: "Italiano:", lang_it_val: "Bons conhecimentos", lang_es_label: "Espanhol:", lang_es_val: "Bons conhecimentos", lang_en_label: "Inglês:", lang_en_val: "Conhecimentos básicos (a aprender)",
+                lang_title: "IDIOMAS", lang_hint: "(Clique na bandeira)", lang_de_label: "Alemão:", lang_de_val: "Língua materna", lang_pt_label: "Português:", lang_pt_val: "Segunda língua materna", lang_fr_label: "Francês:", lang_fr_val: "Bons conhecimentos escolares", lang_it_label: "Italiano:", lang_it_val: "Bons conhecimentos", lang_es_label: "Espanhol:", lang_es_val: "Bons conhecimentos", lang_en_label: "Inglês:", lang_en_val: "Conhecimentos básicos (a aprender)",
                 other_title: "OUTROS", driver_b: "Carta de condução:", driver_a: "Carta de navegador:", js_sport: "J+S - Líder desportivo com licença de treinador UEFA-B", hobbies_label: "Hobbies:", hobbies_val: "Família, Arquitetura, Desporto (Futebol), Finanças, IA, Leitura/Desenho, Viagens e Gastronomia",
                 podcast_title: "PODCAST", podcast_click: "Clique aqui para reproduzir",
                 main_job_title: "Desenhador Civil EFZ | Técnico de Construção | Especialista em Estruturas de Betão e Armaduras",
@@ -553,7 +561,7 @@
                 edu_3_title: "Federal VET Diploma (EFZ) Draftsman", edu_3_spec: "Specialization Structural Engineering",
                 edu_4: "Vocational School Muttenz GIBM", edu_5: "Construction Site Internships: Metal & Structural Engineering", edu_6: "School education, kindergarten to secondary school in Sissach",
                 skills_title: "TECHNICAL SKILLS",
-                lang_title: "LANGUAGES", lang_de_label: "German:", lang_de_val: "Native language", lang_pt_label: "Portuguese:", lang_pt_val: "Second native language", lang_fr_label: "French:", lang_fr_val: "Good school knowledge", lang_it_label: "Italian:", lang_it_val: "Good knowledge", lang_es_label: "Spanish:", lang_es_val: "Good knowledge", lang_en_label: "English:", lang_en_val: "Basic knowledge (learning)",
+                lang_title: "LANGUAGES", lang_hint: "(Click on flag)", lang_de_label: "German:", lang_de_val: "Native language", lang_pt_label: "Portuguese:", lang_pt_val: "Second native language", lang_fr_label: "French:", lang_fr_val: "Good school knowledge", lang_it_label: "Italian:", lang_it_val: "Good knowledge", lang_es_label: "Spanish:", lang_es_val: "Good knowledge", lang_en_label: "English:", lang_en_val: "Basic knowledge (learning)",
                 other_title: "OTHER", driver_b: "Driving License:", driver_a: "Boat License:", js_sport: "J+S - Sports Leader with UEFA-B Football Coach License", hobbies_label: "Hobbies:", hobbies_val: "Family, Architecture, Sports (Football), Finance, AI, Reading/Drawing, Travel and Food",
                 podcast_title: "PODCAST", podcast_click: "Click here to play",
                 main_job_title: "Draftsman EFZ | Construction Technician | Specialist for Concrete Structures & Reinforcement",
@@ -582,7 +590,7 @@
                 edu_3_title: "Certificat fédéral de capacité (CFC) Dessinateur", edu_3_spec: "Orientation Génie Civil",
                 edu_4: "École professionnelle Muttenz GIBM", edu_5: "Stages de chantier: Construction métallique & Bâtiment", edu_6: "Scolarité complète à Sissach",
                 skills_title: "COMPÉTENCES TECHNIQUES",
-                lang_title: "LANGUES", lang_de_label: "Allemand:", lang_de_val: "Langue maternelle", lang_pt_label: "Portugais:", lang_pt_val: "Deuxième langue maternelle", lang_fr_label: "Français:", lang_fr_val: "Bonnes connaissances scolaires", lang_it_label: "Italien:", lang_it_val: "Bonnes connaissances", lang_es_label: "Espagnol:", lang_es_val: "Bonnes connaissances", lang_en_label: "Anglais:", lang_en_val: "Connaissances de base (en apprentissage)",
+                lang_title: "LANGUES", lang_hint: "(Cliquez sur le drapeau)", lang_de_label: "Allemand:", lang_de_val: "Langue maternelle", lang_pt_label: "Portugais:", lang_pt_val: "Deuxième langue maternelle", lang_fr_label: "Français:", lang_fr_val: "Bonnes connaissances scolaires", lang_it_label: "Italien:", lang_it_val: "Bonnes connaissances", lang_es_label: "Espagnol:", lang_es_val: "Bonnes connaissances", lang_en_label: "Anglais:", lang_en_val: "Connaissances de base (en apprentissage)",
                 other_title: "DIVERS", driver_b: "Permis de conduire:", driver_a: "Permis bateau:", js_sport: "J+S - Moniteur de sport avec licence UEFA-B", hobbies_label: "Loisirs:", hobbies_val: "Famille, Architecture, Sport (Football), Finances, IA, Lecture/Dessin, Voyages",
                 podcast_title: "PODCAST", podcast_click: "Cliquez pour écouter",
                 main_job_title: "Dessinateur en bâtiment CFC | Technicien | Spécialiste béton et armatures",
@@ -611,7 +619,7 @@
                 edu_3_title: "Attestato federale di capacità (AFC) Disegnatore", edu_3_spec: "Indirizzo Ingegneria Civile",
                 edu_4: "Scuola professionale Muttenz GIBM", edu_5: "Stage in cantiere: Costruzioni metalliche ed edilizia", edu_6: "Scuola dell'obbligo a Sissach",
                 skills_title: "COMPETENZE TECNICHE",
-                lang_title: "LINGUE", lang_de_label: "Tedesco:", lang_de_val: "Madrelingua", lang_pt_label: "Portoghese:", lang_pt_val: "Seconda madrelingua", lang_fr_label: "Francese:", lang_fr_val: "Buone conoscenze scolastiche", lang_it_label: "Italiano:", lang_it_val: "Buone conoscenze", lang_es_label: "Spagnolo:", lang_es_val: "Buone conoscenze", lang_en_label: "Inglese:", lang_en_val: "Conoscenze di base (in apprendimento)",
+                lang_title: "LINGUE", lang_hint: "(Clicca sulla bandiera)", lang_de_label: "Tedesco:", lang_de_val: "Madrelingua", lang_pt_label: "Portoghese:", lang_pt_val: "Seconda madrelingua", lang_fr_label: "Francese:", lang_fr_val: "Buone conoscenze scolastiche", lang_it_label: "Italiano:", lang_it_val: "Buone conoscenze", lang_es_label: "Spagnolo:", lang_es_val: "Buone conoscenze", lang_en_label: "Inglese:", lang_en_val: "Conoscenze di base (in apprendimento)",
                 other_title: "ALTRO", driver_b: "Patente di guida:", driver_a: "Patente nautica:", js_sport: "J+S - Istruttore sportivo con licenza UEFA-B", hobbies_label: "Hobby:", hobbies_val: "Famiglia, Architettura, Sport (Calcio), Finanza, IA, Lettura/Disegno, Viaggi",
                 podcast_title: "PODCAST", podcast_click: "Clicca per ascoltare",
                 main_job_title: "Disegnatore edile AFC | Tecnico | Specialista in cemento armato",
@@ -640,7 +648,7 @@
                 edu_3_title: "Certificado Federal de Capacidad (CFC) Dibujante", edu_3_spec: "Especialidad Ingeniería Civil",
                 edu_4: "Escuela profesional Muttenz GIBM", edu_5: "Prácticas de obra: Construcción metálica y edificación", edu_6: "Escolaridad en Sissach",
                 skills_title: "HABILIDADES TÉCNICAS",
-                lang_title: "IDIOMAS", lang_de_label: "Alemán:", lang_de_val: "Lengua materna", lang_pt_label: "Portugués:", lang_pt_val: "Segunda lengua materna", lang_fr_label: "Francés:", lang_fr_val: "Buenos conocimientos escolares", lang_it_label: "Italiano:", lang_it_val: "Buenos conocimientos", lang_es_label: "Español:", lang_es_val: "Buenos conocimientos", lang_en_label: "Inglés:", lang_en_val: "Conocimientos básicos (aprendiendo)",
+                lang_title: "IDIOMAS", lang_hint: "(Clic en la bandera)", lang_de_label: "Alemán:", lang_de_val: "Lengua materna", lang_pt_label: "Portugués:", lang_pt_val: "Segunda lengua materna", lang_fr_label: "Francés:", lang_fr_val: "Buenos conocimientos escolares", lang_it_label: "Italiano:", lang_it_val: "Buenos conocimientos", lang_es_label: "Español:", lang_es_val: "Buenos conocimientos", lang_en_label: "Inglés:", lang_en_val: "Conocimientos básicos (aprendiendo)",
                 other_title: "OTROS", driver_b: "Licencia de conducir:", driver_a: "Licencia de barco:", js_sport: "J+S - Monitor deportivo con licencia UEFA-B", hobbies_label: "Hobbies:", hobbies_val: "Familia, Arquitetura, Deporte (Fútbol), Finanzas, IA, Lectura/Dibujo, Viajes",
                 podcast_title: "PODCAST", podcast_click: "Clic para reproducir",
                 main_job_title: "Dibujante de construcción | Técnico | Especialista en hormigón y armaduras",
@@ -714,7 +722,7 @@
                 placeholder.classList.add('hidden');
             } else {
                 img.onerror = function() { img.classList.add('hidden'); placeholder.classList.remove('hidden'); };
-                img.src = "marco.png";
+                img.src = "unnamed.jpg";
             }
 
             // Podcast
@@ -817,5 +825,4 @@
     </script>
 
 </body>
-
 </html>
